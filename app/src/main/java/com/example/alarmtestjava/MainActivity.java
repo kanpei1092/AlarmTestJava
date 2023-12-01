@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.media.MediaPlayer;
 import android.view.View;
+import android.os.SystemClock;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer alarm;
+    //private long startTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         //alarm = MediaPlayer.create(this,R.raw.alarm);
         alarm = MediaPlayer.create(this, soundResourceID(2));
+
     }
 
     public static int soundResourceID(int penaltyValue) {
@@ -36,16 +40,28 @@ public class MainActivity extends AppCompatActivity {
             //break;
         }
     }
+    private long startTime;
+    private long stopTime;
+    //private long elapsedTime;
 
         /* スタートボタン */
         public void onStart (View view){
             alarm.start();
-        }
+        //}
+
+        // 開始時刻を取得
+        startTime = SystemClock.elapsedRealtime();}
 
         /* ストップボタン */
         public void onStop (View view){
             alarm.stop();
-        }
+        //}
+            // 停止した時刻を取得
+            stopTime = SystemClock.elapsedRealtime();}
 
-        /*aaaa*/
+            // 経過時間を計算
+            long elapsedTime = stopTime - startTime;
+
+    // 経過時間を秒単位で表示
+    long elapsedSeconds = elapsedTime / 1000;
 }
