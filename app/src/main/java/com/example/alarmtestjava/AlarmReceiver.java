@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.util.Log;
+import android.view.View;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -48,4 +49,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             // 例: ユーザーにパーミッションの許可を求めるダイアログを表示する、エラーメッセージを表示するなど
         }
     }
+
+    public void onStop(View view){}
 }
