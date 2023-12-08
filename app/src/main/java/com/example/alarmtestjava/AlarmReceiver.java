@@ -14,11 +14,21 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("AlarmReceiver", "Alarm received!");
-        showNotification(context, "Alarm", "Wake up! It's time!");
 
-        // ここでアラームが鳴ったときに行いたい処理を追加できます
-        MediaPlayer alarm = MediaPlayer.create(this, R.raw.alarm);
-        alarm.start();
+        // MediaPlayerを作成して音楽を再生
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alarm);
+        mediaPlayer.start();
+
+        // アラームが鳴ったときに行いたい処理を追加できます
+
+        // アプリケーションがバックグラウンドで動作している場合、
+        // メディアプレーヤーのリソースを解放することを忘れないでください。
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
     }
 
     private void showNotification(Context context, String title, String content) {
