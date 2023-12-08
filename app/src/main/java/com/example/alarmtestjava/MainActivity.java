@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         timePicker = findViewById(R.id.timePicker);
         Log.d("MainActivity", "get timePicker!");
