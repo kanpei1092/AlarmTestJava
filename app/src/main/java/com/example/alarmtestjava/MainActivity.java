@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AlarmManager alarmManager;
     private TimePicker timePicker;
+
+    static MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,4 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_SHORT).show();
     }
+
+    public void onStop(View view){mediaPlayer.stop();}
 }

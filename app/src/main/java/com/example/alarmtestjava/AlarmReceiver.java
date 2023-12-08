@@ -12,19 +12,20 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("AlarmReceiver", "Alarm received!");
-
+        MainActivity.mediaPlayer = MediaPlayer.create(context, R.raw.alarm);
         // MediaPlayerを作成して音楽を再生
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alarm);
-        mediaPlayer.start();
+
+        MainActivity.mediaPlayer.start();
 
         // アラームが鳴ったときに行いたい処理を追加できます
 
         // アプリケーションがバックグラウンドで動作している場合、
         // メディアプレーヤーのリソースを解放することを忘れないでください。
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        MainActivity.mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
@@ -50,5 +51,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    public void onStop(View view){}
+
 }
