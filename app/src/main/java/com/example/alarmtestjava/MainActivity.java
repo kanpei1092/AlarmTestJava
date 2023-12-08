@@ -11,7 +11,6 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer alarm;
-    //private long startTime;
     private TextView textView;
     private int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
 
@@ -30,21 +29,6 @@ public class MainActivity extends AppCompatActivity {
     public static int soundResourceID(int penaltyValue) {
 
         // 適切な soundResourceID を設定
-        /*switch (penaltyValue) {
-            case 1:
-                //soundResourceID = R.raw.alarm1;
-                return R.raw.alarm1;
-            //break;
-            //case 2:
-            //  soundResourceID = R.raw.alarm2;
-            //break;
-            // 必要に応じて他のケースを追加
-            default:
-                //soundResourceID = R.raw.alarm;
-                return R.raw.alarm;
-            //break;
-        }*/
-
         if (penaltyValue > 0){
             return R.raw.alarm1;
         } else{
@@ -78,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 alarm.release();
             }
             alarm = MediaPlayer.create(this, soundResourceID(currentPenaltyValue)); // 初期のpenaltyValueを使用してMediaPlayerを作成
-            //alarm = MediaPlayer.create(this, soundResourceID(0));
 
             alarm.start();
 
@@ -99,13 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // 経過時間を秒単位で表示
                 long elapsedSeconds = elapsedTime / 1000;
+
+                // elapsedSecondsに基づいてpenaltyValueを更新
                 updatePenaltyValue(elapsedSeconds);
 
                 textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" +
                         "ペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
-
-                // elapsedSecondsに基づいてpenaltyValueを更新
-                //updatePenaltyValue(elapsedSeconds);
             }
         }
     @Override
