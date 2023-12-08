@@ -27,12 +27,30 @@
         app:layout_constraintTop_toBottomOf="@+id/button"
         tools:layout_editor_absoluteX="36dp" />
 
-    <TextClock
-        android:id="@+id/textClock2"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="60sp" />
+        android:text="目覚まし時計"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.86" />
 
+    <AnalogClock
+        android:id="@+id/analogClock1"
+        android:layout_width="275dp"
+        android:layout_height="297dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.467" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

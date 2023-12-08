@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.media.MediaPlayer;
 import android.view.View;
 import android.os.SystemClock;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer alarm;
     //private long startTime;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         //alarm = MediaPlayer.create(this,R.raw.alarm);
         alarm = MediaPlayer.create(this, soundResourceID(2));
+        textView = findViewById(R.id.textView);
 
     }
 
@@ -49,19 +52,23 @@ public class MainActivity extends AppCompatActivity {
             alarm.start();
         //}
 
-        // 開始時刻を取得
-        startTime = SystemClock.elapsedRealtime();}
+            // 開始時刻を取得
+            startTime = SystemClock.elapsedRealtime();
+        }
 
         /* ストップボタン */
-        public void onStop (View view){
+        public void onStop (View view) {
             alarm.stop();
-        //}
+            //}
             // 停止した時刻を取得
-            stopTime = SystemClock.elapsedRealtime();}
+            stopTime = SystemClock.elapsedRealtime();
 
             // 経過時間を計算
             long elapsedTime = stopTime - startTime;
 
-    // 経過時間を秒単位で表示
-    long elapsedSeconds = elapsedTime / 1000;
+            // 経過時間を秒単位で表示
+            long elapsedSeconds = elapsedTime / 1000;
+
+            textView.setText(String.valueOf(elapsedSeconds)+"秒経ちました！");
+        }
 }
