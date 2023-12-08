@@ -53,7 +53,7 @@ tools:context=".MainActivity">
     app:layout_constraintTop_toBottomOf="@+id/button" />
 
 <Spinner
-    android:id="@+id/spinner1"
+    android:id="@+id/hourSpinner"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +64,7 @@ tools:context=".MainActivity">
     app:layout_constraintVertical_bias="0.373" />
 
 <Spinner
-    android:id="@+id/spinner2"
+    android:id="@+id/minuteSpinner"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -74,28 +74,14 @@ tools:context=".MainActivity">
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="0.438" />
 
-<Button
-    android:id="@+id/button3"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="43dp"
-    android:layout_marginEnd="14dp"
-    android:onClick="flagOn"
-    android:text="Alarm Set"
-    app:layout_constraintEnd_toStartOf="@+id/button4"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/spinner2" />
-
-<Button
-    android:id="@+id/button4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="2dp"
-    android:onClick="flagOff"
-    android:text="Alarm Stop"
-    app:layout_constraintBaseline_toBaselineOf="@+id/button3"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/button3" />
+    <Button
+        android:id="@+id/setAlarmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/minuteSpinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="アラームを設定" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
