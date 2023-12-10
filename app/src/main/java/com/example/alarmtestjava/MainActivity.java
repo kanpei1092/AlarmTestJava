@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(View view) {
         alarm.start();
         Toast.makeText(this, "音を流します", Toast.LENGTH_LONG).show();
-
     }
 
     /* ストップボタン */
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
+        Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
         alarm.stop();
     }
 
@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         assert nfcAdapter != null;
-        //nfcAdapter.enableForegroundDispatch(context,pendingIntent,
-        //                                    intentFilterArray,
-        //                                    techListsArray)
         nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
     }
 
@@ -75,17 +72,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        setIntent(intent);
-        resolveIntent(intent);
-    }
-
-    private void resolveIntent(Intent intent) {
-        String action = intent.getAction();
-        if ( !(NfcAdapter.ACTION_TAG_DISCOVERED.equals(action))) {
-            Toast.makeText(this, "if", Toast.LENGTH_LONG).show();
-            wakeUp();
-        } else {
-            Toast.makeText(this, "何かエラーあるよ", Toast.LENGTH_LONG).show();
-        }
+        wakeUp();
     }
 }
