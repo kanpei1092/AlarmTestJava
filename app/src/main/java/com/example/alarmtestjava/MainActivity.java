@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer alarm;
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
-    //private long startTime;
     private TextView textView;
 
     @Override
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private long startTime;
     private long stopTime;
-    //private long elapsedTime;
 
     /* スタートボタン */
     public void onStart (View view){
@@ -92,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
     public void wakeUp(){
         Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
         alarm.stop();
+        // 停止した時刻を取得
+        stopTime = SystemClock.elapsedRealtime();
+
+        // 経過時間を計算
+        long elapsedTime = stopTime - startTime;
+
+        // 経過時間を秒単位で表示
+        long elapsedSeconds = elapsedTime / 1000;
+
+        textView.setText(String.valueOf(elapsedSeconds)+"秒経ちました！");
     }
 
 
