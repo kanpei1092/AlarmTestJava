@@ -19,7 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d("AlarmReceiver", "Alarm received!");
         MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
         // MediaPlayerを作成して音楽を再生
-        MainActivity.start();
+        MainActivity.startMusic();
 
 
 

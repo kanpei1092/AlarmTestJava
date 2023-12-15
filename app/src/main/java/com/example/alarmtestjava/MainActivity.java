@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    static void start(){
+    static void startMusic(){
         if (alarm != null) {
             alarm.release();
         }
