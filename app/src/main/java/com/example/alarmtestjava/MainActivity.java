@@ -35,18 +35,16 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MediaPlayer alarm;
+    static MediaPlayer alarm;
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private TextView textView;
-    private int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
-    private long startTime;
+    private static int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
+    private static long startTime;
     private long stopTime;
 
     private AlarmManager alarmManager;
     private TimePicker timePicker;
-
-    static MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,18 +149,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     /* スタートボタン */
-    public void onStart (View view){
+    public void onStart (View view) {
+
+    }
+
+
+    static void start(){
         if (alarm != null) {
             alarm.release();
         }
-        alarm = MediaPlayer.create(this, soundResourceID(currentPenaltyValue)); // 初期のpenaltyValueを使用してMediaPlayerを作成
-
         alarm.start();
-        Toast.makeText(this, "音を流します", Toast.LENGTH_LONG).show();
-
         // 開始時刻を取得
         startTime = SystemClock.elapsedRealtime();
     }
+
+
 
     /* ストップボタン */
     public void onStop (View view) {
@@ -187,8 +188,7 @@ public class MainActivity extends AppCompatActivity {
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
 
-            textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" +
-                    "ペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
+            textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
         }
     }
 

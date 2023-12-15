@@ -17,9 +17,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("AlarmReceiver", "Alarm received!");
-        MainActivity.mediaPlayer = MediaPlayer.create(context, R.raw.alarm);
+        MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
         // MediaPlayerを作成して音楽を再生
-        MainActivity.mediaPlayer.start();
+        MainActivity.start();
+
 
 
         // アラームが鳴ったときに行いたい処理を追加できます
@@ -27,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // アプリケーションがバックグラウンドで動作している場合、
         // メディアプレーヤーのリソースを解放することを忘れないでください。
-        MainActivity.mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        MainActivity.alarm.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
