@@ -19,13 +19,16 @@ public class MainActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private TextView textView;
+    private int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        alarm = MediaPlayer.create(this, soundResourceID(2));
+        //alarm = MediaPlayer.create(this,R.raw.alarm);
+        //alarm = MediaPlayer.create(this, soundResourceID(2));
+
         textView = findViewById(R.id.textView);
 
         // NFCアダプタの初期化
@@ -41,22 +44,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public static int soundResourceID(int penaltyValue) {
 
         // 適切な soundResourceID を設定
-        switch (penaltyValue) {
-            case 1:
-                //soundResourceID = R.raw.alarm1;
-                return R.raw.alarm1;
-            //break;
-            //case 2:
-            //  soundResourceID = R.raw.alarm2;
-            //break;
-            // 必要に応じて他のケースを追加
-            default:
-                //soundResourceID = R.raw.alarm;
-                return R.raw.alarm;
-            //break;
+        if (penaltyValue > 0){
+            return R.raw.alarm1;
+        } else{
+            return R.raw.alarm;
+        }
+    }
+
+    // penaltyValueを取得する関数
+    public int getCurrentPenaltyValue() {
+        return currentPenaltyValue;
+    }
+
+    // elapsedSecondsの値によってpenaltyValueを変化させる関数
+    public void updatePenaltyValue(long elapsedSeconds) {
+        if (elapsedSeconds >= 10) {
+            currentPenaltyValue = currentPenaltyValue + 10; // 10秒以上経過した場合、penaltyValueを1に変更
+            alarm = MediaPlayer.create(this, soundResourceID(currentPenaltyValue)); // MediaPlayerを更新
+        }
+        // 他にも条件があれば追加
+        if (elapsedSeconds < 10) {
+            currentPenaltyValue = currentPenaltyValue - 10; // 10秒以上経過した場合、penaltyValueを1に変更
+            alarm = MediaPlayer.create(this, soundResourceID(currentPenaltyValue)); // MediaPlayerを更新
         }
     }
     private long startTime;
@@ -64,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
     /* スタートボタン */
     public void onStart (View view){
+        if (alarm != null) {
+            alarm.release();
+        }
+        alarm = MediaPlayer.create(this, soundResourceID(currentPenaltyValue)); // 初期のpenaltyValueを使用してMediaPlayerを作成
+
         alarm.start();
         Toast.makeText(this, "音を流します", Toast.LENGTH_LONG).show();
 
@@ -73,33 +91,39 @@ public class MainActivity extends AppCompatActivity {
 
     /* ストップボタン */
     public void onStop (View view) {
-        alarm.stop();
-        // 停止した時刻を取得
-        stopTime = SystemClock.elapsedRealtime();
-
-        // 経過時間を計算
-        long elapsedTime = stopTime - startTime;
-
-        // 経過時間を秒単位で表示
-        long elapsedSeconds = elapsedTime / 1000;
-
-        textView.setText(String.valueOf(elapsedSeconds)+"秒経ちました！");
+        wakeUp();
     }
 
     /* 起床判定メソッド */
     public void wakeUp(){
-        Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-        alarm.stop();
-        // 停止した時刻を取得
-        stopTime = SystemClock.elapsedRealtime();
+        if (alarm != null && alarm.isPlaying()) {
+            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
+            alarm.stop();
 
-        // 経過時間を計算
-        long elapsedTime = stopTime - startTime;
+            // 停止した時刻を取得
+            stopTime = SystemClock.elapsedRealtime();
 
-        // 経過時間を秒単位で表示
-        long elapsedSeconds = elapsedTime / 1000;
+            // 経過時間を計算
+            long elapsedTime = stopTime - startTime;
 
-        textView.setText(String.valueOf(elapsedSeconds)+"秒経ちました！");
+            // 経過時間を秒単位で表示
+            long elapsedSeconds = elapsedTime / 1000;
+
+            // elapsedSecondsに基づいてpenaltyValueを更新
+            updatePenaltyValue(elapsedSeconds);
+
+            textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" +
+                    "ペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Release MediaPlayer resources when the activity is destroyed
+        if (alarm != null) {
+            alarm.release();
+        }
+        super.onDestroy();
     }
 
 
@@ -125,5 +149,6 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         wakeUp();
     }
+
 
 }
