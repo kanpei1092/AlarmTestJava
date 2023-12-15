@@ -6,26 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onStart"
-        android:text="Start"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="32dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="87dp">
 
+        <!-- 他のビューがあればそれらを追加 -->
 
+        <!-- TimePicker を追加 -->
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:onClick="onStop"
-        android:text="Stop"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        tools:layout_editor_absoluteX="36dp" />
+        <Button
+            android:id="@+id/setAlarmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alarm set" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="3dp"
+            android:onClick="onStop"
+            android:text="Stop"
+            tools:layout_editor_absoluteX="36dp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView"
