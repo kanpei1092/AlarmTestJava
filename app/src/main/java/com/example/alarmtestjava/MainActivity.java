@@ -20,30 +20,29 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     private TextView textView;
     private int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
+    private long startTime;
+    private long stopTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //alarm = MediaPlayer.create(this,R.raw.alarm);
-        //alarm = MediaPlayer.create(this, soundResourceID(2));
-
         textView = findViewById(R.id.textView);
 
         // NFCアダプタの初期化
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        //NFCが利用可能か表示
         if (nfcAdapter == null) {
             Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
         }
 
         // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
     }
-
-
 
     public static int soundResourceID(int penaltyValue) {
 
@@ -72,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
             alarm = MediaPlayer.create(this, soundResourceID(currentPenaltyValue)); // MediaPlayerを更新
         }
     }
-    private long startTime;
-    private long stopTime;
+
 
     /* スタートボタン */
     public void onStart (View view){
@@ -126,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-
-
     /* 現在の（フォアグラウンド）アクティビティがNFCの意図を傍受し、アプリ内と他のアプリの両方で他のすべてのアクティビティよりも優先権を主張できるようにする */
     @Override
     protected void onResume() {
@@ -149,6 +145,4 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         wakeUp();
     }
-
-
 }
