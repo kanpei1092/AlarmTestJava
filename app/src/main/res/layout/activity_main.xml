@@ -45,6 +45,38 @@
             android:layout_height="158dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="466dp" />
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/questionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Question"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:id="@+id/answerEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/questionTextView"
+                android:inputType="number"
+                android:hint="Your Answer"/>
+
+            <Button
+                android:id="@+id/submitAnswerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/answerEditText"
+                android:text="Submit"/>
+
+        </RelativeLayout>
+
+
     </RelativeLayout>
 
     <TextView

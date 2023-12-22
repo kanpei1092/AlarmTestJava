@@ -21,6 +21,7 @@ import android.os.SystemClock;
 import android.widget.TextView;
 import android.nfc.NfcAdapter;
 import android.content.Intent;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TimePicker;
@@ -32,6 +33,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,39 +48,57 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private TimePicker timePicker;
 
+    private TextView questionTextView;
+    private EditText answerEditText;
+    private Button submitButton;
+    private int correctAnswer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        timePicker = findViewById(R.id.timePicker);
-        Log.d("MainActivity", "get timePicker!");
-
-        textView = findViewById(R.id.textView);
-
-        // NFCアダプタの初期化
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-        //NFCが利用可能か表示
-        if (nfcAdapter == null) {
-            Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
-        } else {
-            //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
-            // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
-            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
-
+        /* タイムピッカー */
+        {
+            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            timePicker = findViewById(R.id.timePicker);
+            Log.d("MainActivity", "get timePicker!");
+            textView = findViewById(R.id.textView);
         }
 
+        /* NFCの初期化 */
+        {
+            // NFCアダプタの初期化
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-        //ボタンでアラームセット
-        Button setAlarmButton = findViewById(R.id.setAlarmButton);
-        setAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setAlarm(v);
+            //NFCが利用可能か表示
+            if (nfcAdapter == null) {
+                Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
+            } else {
+                //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
+                // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
+                pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
+
             }
-        });
+        }
+
+        /* ボタンでアラームセット　*/
+        {
+            Button setAlarmButton = findViewById(R.id.setAlarmButton);
+            setAlarmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setAlarm(v);
+                }
+            });
+        }
+
+        /* 計算問題 */
+        {
+            questionTextView = findViewById(R.id.questionTextView);
+            answerEditText = findViewById(R.id.answerEditText);
+            submitButton = findViewById(R.id.submitAnswerButton);
+        }
     }
 
     // 適切な soundResourceID を設定
@@ -122,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         setAlarmNotification(calendar.getTimeInMillis());
         Log.d("MainActivity", "set!");
     }
-
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Default Channel";
@@ -135,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
     private void setAlarmNotification(long triggerTime) {
         createNotificationChannel(); // 通知チャネルを作成
 
@@ -147,11 +165,49 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_SHORT).show();
     }
 
+    // ペナルティ値によってペナルティを与えるメソッド群
+    private void generateNewQuestion() {
+        Random random = new Random();
+        int a = random.nextInt(10);
+        int b = random.nextInt(10);
+        correctAnswer = a + b;
+        questionTextView.setText(a + " + " + b + " = ?");
+    }
 
+    private void checkAnswer() {
+        int userAnswer = Integer.parseInt(answerEditText.getText().toString());
+        if (userAnswer == correctAnswer) {
+            Toast.makeText(MainActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Wrong Answer", Toast.LENGTH_SHORT).show();
+        }
+        generateNewQuestion();
+    }
 
-    /* スタートボタン */
-    public void onStart (View view) {
-
+    private void doPenalty(int penalty) {
+        switch (penalty) {
+            case 1:
+                // penaltyが1の場合の処理
+                break;
+            case 2:
+                // penaltyが2の場合の処理
+                generateNewQuestion();
+                submitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        checkAnswer();
+                    }
+                });
+                break;
+            case 3:
+                // penaltyが3の場合の処理
+                Toast.makeText(this, "Penalty 3", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                // どのcaseにも当てはまらない場合の処理
+                Toast.makeText(this, "Default Penalty", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
 
@@ -164,8 +220,6 @@ public class MainActivity extends AppCompatActivity {
         startTime = SystemClock.elapsedRealtime();
     }
 
-
-
     /* ストップボタン */
     public void onStop (View view) {
         wakeUp();
@@ -173,22 +227,18 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
+        doPenalty(2);
         if (alarm != null && alarm.isPlaying()) {
+
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             alarm.stop();
 
-            // 停止した時刻を取得
-            stopTime = SystemClock.elapsedRealtime();
-
-            // 経過時間を計算
-            long elapsedTime = stopTime - startTime;
-
-            // 経過時間を秒単位で表示
-            long elapsedSeconds = elapsedTime / 1000;
+            stopTime = SystemClock.elapsedRealtime(); // 停止した時刻を取得
+            long elapsedTime = stopTime - startTime; // 経過時間を計算
+            long elapsedSeconds = elapsedTime / 1000; // 経過時間を秒単位で表示
 
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
-
             textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
         }
     }
@@ -201,6 +251,8 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
+
 
     /* 現在の（フォアグラウンド）アクティビティがNFCの意図を傍受し、アプリ内と他のアプリの両方で他のすべてのアクティビティよりも優先権を主張できるようにする */
     @Override
