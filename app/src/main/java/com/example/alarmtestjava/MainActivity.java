@@ -65,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
         } else {
             //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
+            // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
+            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
+
         }
 
-        // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
-        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
 
         //ボタンでアラームセット
         Button setAlarmButton = findViewById(R.id.setAlarmButton);
@@ -205,13 +206,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        assert nfcAdapter != null;
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+        // NFCアダプタがnullでない場合のみ、Foreground Dispatchを有効化
+        if (nfcAdapter != null) {
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+        }
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
-        //On pause stop listening
+        // NFCアダプタがnullでない場合のみ、Foreground Dispatchを無効化
         if (nfcAdapter != null) {
             nfcAdapter.disableForegroundDispatch(this);
         }
