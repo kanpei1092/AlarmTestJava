@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="87dp">
 
-    <!-- 他のビューがあればそれらを追加 -->
+        <!-- 他のビューがあればそれらを追加 -->
 
-    <!-- TimePicker を追加 -->
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        <!-- TimePicker を追加 -->
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
 
         <Button
             android:id="@+id/setAlarmButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Alarm set" />
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onStart"
-        android:text="Start"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="32dp" />
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="3dp"
+            android:onClick="onStop"
+            android:text="Stop"
+            tools:layout_editor_absoluteX="36dp" />
 
+        <AnalogClock
+            android:id="@+id/analogClock1"
+            android:layout_width="148dp"
+            android:layout_height="158dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="466dp" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:onClick="onStop"
-        android:text="Stop"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        tools:layout_editor_absoluteX="36dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -58,18 +58,6 @@ tools:context=".MainActivity">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9" />
-
-    <AnalogClock
-        android:id="@+id/analogClock1"
-        android:layout_width="275dp"
-        android:layout_height="297dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
 
     <TextClock
         android:id="@+id/textClock"
