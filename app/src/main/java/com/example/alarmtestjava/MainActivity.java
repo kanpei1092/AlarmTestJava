@@ -21,7 +21,6 @@ import android.os.SystemClock;
 import android.widget.TextView;
 import android.nfc.NfcAdapter;
 import android.content.Intent;
-import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TimePicker;
@@ -33,7 +32,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,23 +46,16 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private TimePicker timePicker;
 
-    private TextView questionTextView;
-    private EditText answerEditText;
-    private Button submitButton;
-    private int correctAnswer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* タイムピッカー */
-        {
-            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            timePicker = findViewById(R.id.timePicker);
-            Log.d("MainActivity", "get timePicker!");
-            textView = findViewById(R.id.textView);
-        }
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        timePicker = findViewById(R.id.timePicker);
+        Log.d("MainActivity", "get timePicker!");
+
+        //textView = findViewById(R.id.textView);
 
         /* NFCの初期化 */
         {
@@ -91,13 +82,6 @@ public class MainActivity extends AppCompatActivity {
                     setAlarm(v);
                 }
             });
-        }
-
-        /* 計算問題 */
-        {
-            questionTextView = findViewById(R.id.questionTextView);
-            answerEditText = findViewById(R.id.answerEditText);
-            submitButton = findViewById(R.id.submitAnswerButton);
         }
     }
 
@@ -142,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         setAlarmNotification(calendar.getTimeInMillis());
         Log.d("MainActivity", "set!");
     }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Default Channel";
@@ -154,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     private void setAlarmNotification(long triggerTime) {
         createNotificationChannel(); // 通知チャネルを作成
 
@@ -165,39 +151,17 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_SHORT).show();
     }
 
-    // ペナルティ値によってペナルティを与えるメソッド群
-    private void generateNewQuestion() {
-        Random random = new Random();
-        int a = random.nextInt(10);
-        int b = random.nextInt(10);
-        correctAnswer = a + b;
-        questionTextView.setText(a + " + " + b + " = ?");
-    }
 
-    private void checkAnswer() {
-        int userAnswer = Integer.parseInt(answerEditText.getText().toString());
-        if (userAnswer == correctAnswer) {
-            Toast.makeText(MainActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(MainActivity.this, "Wrong Answer", Toast.LENGTH_SHORT).show();
-        }
-        generateNewQuestion();
-    }
 
     private void doPenalty(int penalty) {
         switch (penalty) {
             case 1:
                 // penaltyが1の場合の処理
+                Toast.makeText(this, "Penalty 1", Toast.LENGTH_SHORT).show();
                 break;
             case 2:
                 // penaltyが2の場合の処理
-                generateNewQuestion();
-                submitButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checkAnswer();
-                    }
-                });
+                Toast.makeText(this, "Penalty 2", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 // penaltyが3の場合の処理
@@ -212,13 +176,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     static void startMusic(){
-        if (alarm != null) {
+        if (alarm == null) {
             alarm.release();
         }
         alarm.start();
         // 開始時刻を取得
         startTime = SystemClock.elapsedRealtime();
     }
+
+
 
     /* ストップボタン */
     public void onStop (View view) {
@@ -227,9 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
-        doPenalty(2);
         if (alarm != null && alarm.isPlaying()) {
-
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             alarm.stop();
 
@@ -239,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
-            textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
+            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -251,8 +215,6 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-
-
 
     /* 現在の（フォアグラウンド）アクティビティがNFCの意図を傍受し、アプリ内と他のアプリの両方で他のすべてのアクティビティよりも優先権を主張できるようにする */
     @Override
