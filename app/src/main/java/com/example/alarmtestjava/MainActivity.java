@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         timePicker = findViewById(R.id.timePicker);
         Log.d("MainActivity", "get timePicker!");
 
-        textView = findViewById(R.id.textView);
+        //textView = findViewById(R.id.textView);
 
         // NFCアダプタの初期化
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     static void startMusic(){
-        if (alarm != null) {
+        if (alarm == null) {
             alarm.release();
         }
         alarm.start();
@@ -189,7 +189,8 @@ public class MainActivity extends AppCompatActivity {
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
 
-            textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
+            //textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
+            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！", Toast.LENGTH_LONG).show();
         }
     }
 

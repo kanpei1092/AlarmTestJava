@@ -18,9 +18,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("AlarmReceiver", "Alarm received!");
         MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
+
+        //soundVolume(1, MainActivity.alarm);
         // MediaPlayerを作成して音楽を再生
         MainActivity.startMusic();
-
+        //MainActivity.alarm.start();
+        Log.d("AlarmReceiver", "Alarm start!");
 
 
         // アラームが鳴ったときに行いたい処理を追加できます
@@ -51,6 +54,13 @@ public class AlarmReceiver extends BroadcastReceiver {
             e.printStackTrace();
             // パーミッションがない場合の処理をここに追加
             // 例: ユーザーにパーミッションの許可を求めるダイアログを表示する、エラーメッセージを表示するなど
+        }
+    }
+
+    public void soundVolume(int penaltyValue, MediaPlayer alarm) {
+        if(penaltyValue >= 0) {
+            alarm.setVolume(1/2, 1/2);
+        }else {
         }
     }
 
