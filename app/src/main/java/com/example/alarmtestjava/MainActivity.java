@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static int minute;
     private View view;
 
-    private static boolean alarmSetFlag; //アラーム設定されているかのフラグ
+    private boolean alarmSetFlag; //アラーム設定されているかのフラグ
     private TextView settingTime;
 
     @Override
@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        TextView settingTime = findViewById(R.id.settingTime);
-        if(alarmSetFlag==true) {
+        settingTime = findViewById(R.id.settingTime);
+        if(alarmSetFlag) {
             if(hour < 12) {
                 if(minute < 10) {
                     settingTime.setText(hour + ":" + "0" + minute + " AM");
