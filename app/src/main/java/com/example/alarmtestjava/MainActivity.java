@@ -46,16 +46,19 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private TimePicker timePicker;
 
+    public static int hour;
+    public static int minute;
+    private View view;
+
+    private static boolean alarmSetFlag; //アラーム設定されているかのフラグ
+    private TextView settingTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        timePicker = findViewById(R.id.timePicker);
-        Log.d("MainActivity", "get timePicker!");
-
-        //textView = findViewById(R.id.textView);
 
         // NFCアダプタの初期化
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -70,15 +73,52 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        TextView currentTimeText = findViewById(R.id.currentTimeText);
+        currentTimeText.setText("current time");
 
-        //ボタンでアラームセット
-        Button setAlarmButton = findViewById(R.id.setAlarmButton);
-        setAlarmButton.setOnClickListener(new View.OnClickListener() {
+        TextView settingTimeText = findViewById(R.id.settingTimeText);
+        settingTimeText.setText("setting time");
+
+
+        Button transitionButton = findViewById(R.id.transitionButton);
+        transitionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                setAlarm(v);
+            public void onClick(View view) {
+                // ボタンが押されたときの処理
+
+                // 画面遷移用のIntentを作成
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+
+                // 画面遷移を開始
+                startActivity(intent);
             }
         });
+
+        // アラーム設定時間の取得
+        Intent intent2 = getIntent();
+        if (intent2 != null) {
+            hour = intent2.getIntExtra("key_data1",100);
+            minute = intent2.getIntExtra("key_data2",100);
+            if(hour <=24 && minute <= 60) {
+                setAlarm(view);
+            }
+        }
+
+
+        TextView settingTime = findViewById(R.id.settingTime);
+        if(alarmSetFlag==true) {
+            if(hour < 12) {
+                if(minute < 10) {
+                    settingTime.setText(hour + ":" + "0" + minute + " AM");
+                } else {
+                    settingTime.setText(hour + ":" + minute + " AM");
+                }
+            } else if(minute < 10) {
+                settingTime.setText((hour-12) + ":" + "0" + minute + " PM");
+            } else {
+                settingTime.setText((hour - 12) + ":" + minute + " PM");
+            }
+        }
     }
 
     // 適切な soundResourceID を設定
@@ -110,13 +150,15 @@ public class MainActivity extends AppCompatActivity {
 
     //時間設定
     public void setAlarm(View view) {
-        int hour = timePicker.getHour();
-        int minute = timePicker.getMinute();
+        int alarmHour = hour;
+        int alarmMinute = minute;
         Log.d("MainActivity", "get time!");
 
+        alarmSetFlag = true;
+
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.HOUR_OF_DAY, alarmHour);
+        calendar.set(Calendar.MINUTE, alarmMinute);
         calendar.set(Calendar.SECOND, 0);
 
         setAlarmNotification(calendar.getTimeInMillis());
@@ -176,7 +218,9 @@ public class MainActivity extends AppCompatActivity {
         if (alarm != null && alarm.isPlaying()) {
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             alarm.stop();
-
+            //アラーム設定時間の表示を解除
+            alarmSetFlag=false;
+            settingTime.setText("");
             // 停止した時刻を取得
             stopTime = SystemClock.elapsedRealtime();
 

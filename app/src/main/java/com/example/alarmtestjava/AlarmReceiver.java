@@ -11,7 +11,10 @@ import android.widget.Button;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import java.util.Calendar;
+
 public class AlarmReceiver extends BroadcastReceiver {
+
 
 
     @Override
@@ -19,11 +22,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d("AlarmReceiver", "Alarm received!");
         MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
 
-        //soundVolume(1, MainActivity.alarm);
-        // MediaPlayerを作成して音楽を再生
-        MainActivity.startMusic();
-        //MainActivity.alarm.start();
-        Log.d("AlarmReceiver", "Alarm start!");
+        int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);//分
+        int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);//時
+
+        if(MainActivity.hour == nowHour && MainActivity.minute == nowMinute) {
+            // MediaPlayerを作成して音楽を再生
+            MainActivity.startMusic();
+            //MainActivity.alarm.start();
+            Log.d("AlarmReceiver", "Alarm start!");
+        }
 
 
         // アラームが鳴ったときに行いたい処理を追加できます
