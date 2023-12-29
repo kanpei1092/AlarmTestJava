@@ -132,13 +132,13 @@ public class MainActivity extends AppCompatActivity {
         if (40 <= penaltyValue && penaltyValue < 60 ){
             return R.raw.alarm2;
         }
-        if (-20 <= penaltyValue && penaltyValue < 0 ){
+        if (-20 < penaltyValue && penaltyValue < 0 ){
             return R.raw.alarm;
         }
-        if (-40 <= penaltyValue && penaltyValue <= -20 ){
+        if (-40 < penaltyValue && penaltyValue <= -20 ){
             return R.raw.alarm3;
         }
-        if (-60 <= penaltyValue && penaltyValue <= -40 ){
+        if (-60 < penaltyValue && penaltyValue <= -40 ){
             return R.raw.alarm4;
         } else return R.raw.alarm;
     }
