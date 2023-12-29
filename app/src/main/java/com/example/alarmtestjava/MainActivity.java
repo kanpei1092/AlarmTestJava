@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "get time!");
 
         alarmSetFlag = true;
-
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, alarmHour);
         calendar.set(Calendar.MINUTE, alarmMinute);

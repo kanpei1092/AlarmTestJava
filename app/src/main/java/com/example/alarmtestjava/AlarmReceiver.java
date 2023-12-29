@@ -22,6 +22,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d("AlarmReceiver", "Alarm received!");
         //MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
         MainActivity.alarm = MediaPlayer.create(context, MainActivity.soundResourceID(MainActivity.currentPenaltyValue));
+        soundVolume(MainActivity.currentPenaltyValue, MainActivity.alarm); //ペナルティ値で音量減少
 
         int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);//分
         int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);//時
@@ -65,12 +66,19 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
+    //ペナルティ値で音量を決定するメソッド
     public void soundVolume(int penaltyValue, MediaPlayer alarm) {
-        if(penaltyValue >= 0) {
-            alarm.setVolume(1/2, 1/2);
+        if(penaltyValue >= -20) {
+            alarm.setVolume(1, 1);
+        }else if(penaltyValue >= -40){
+            alarm.setVolume((float)0.8, (float)0.8);
+        }else if(penaltyValue >= -60){
+            alarm.setVolume((float)0.6, (float)0.6);
+        }else if(penaltyValue >= -80){
+            alarm.setVolume((float)0.4, (float)0.4);
         }else {
+            alarm.setVolume((float)0.2, (float)0.2);
         }
     }
-
 
 }
