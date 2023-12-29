@@ -30,7 +30,12 @@ public class Calculation extends AppCompatActivity {
 
         generateNewQuestion();
 
-        submitButton.setOnClickListener(v -> checkAnswer());
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer();
+            }
+        });
     }
 
     private void generateNewQuestion() {
@@ -38,7 +43,7 @@ public class Calculation extends AppCompatActivity {
         int a = random.nextInt(10);
         int b = random.nextInt(10);
         correctAnswer = a + b;
-        questionTextView.setText(String.format("%d + %d = ?", a, b));
+        questionTextView.setText(a + " + " + b + " = ?");
     }
 
     private void checkAnswer() {
