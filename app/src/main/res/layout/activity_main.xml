@@ -10,66 +10,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        tools:layout_editor_absoluteX="113dp"
-        tools:layout_editor_absoluteY="87dp">
+        tools:layout_editor_absoluteX="121dp"
+        tools:layout_editor_absoluteY="-122dp">
 
         <!-- 他のビューがあればそれらを追加 -->
 
-        <!-- TimePicker を追加 -->
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-
-        <Button
-            android:id="@+id/setAlarmButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Alarm set" />
-
         <Button
             android:id="@+id/button2"
+            android:layout_width="182dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="450dp"
+            android:onClick="onStop"
+            android:text="Stop alarm" />
+
+        <Button
+            android:id="@+id/transitionButton"
+            android:layout_width="182dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="200dp"
+            android:text="let's set alarm" />
+
+        <TextClock
+            android:id="@+id/textClock"
+            android:layout_width="228dp"
+            android:layout_height="93dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="600dp"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/currentTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="3dp"
-            android:onClick="onStop"
-            android:text="Stop"
-            tools:layout_editor_absoluteX="36dp" />
+            android:text="TextView"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="580dp"/>
 
-        <AnalogClock
-            android:id="@+id/analogClock1"
-            android:layout_width="148dp"
-            android:layout_height="158dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="466dp" />
+        <TextView
+            android:id="@+id/settingTime"
+            android:layout_width="242dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="100dp"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/settingTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="80dp"/>
+
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="目覚まし時計"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
-
-    <TextClock
-        android:id="@+id/textClock"
-        android:layout_width="176dp"
-        android:layout_height="57dp"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.557"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.697" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
