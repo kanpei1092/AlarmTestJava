@@ -64,6 +64,8 @@
 
         </activity>
 
+        <service android:name=".MusicService" />
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"

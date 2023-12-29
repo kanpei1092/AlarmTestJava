@@ -50,6 +50,8 @@ public class Calculation extends AppCompatActivity {
             int userAnswer = Integer.parseInt(answerEditText.getText().toString());
             if (userAnswer == correctAnswer) {
                 Toast.makeText(Calculation.this, "Correct!", Toast.LENGTH_SHORT).show();
+                Intent serviceIntent = new Intent(this, MusicService.class);
+                stopService(serviceIntent);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             } else {
