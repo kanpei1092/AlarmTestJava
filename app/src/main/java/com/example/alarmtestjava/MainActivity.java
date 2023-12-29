@@ -196,9 +196,8 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
+        doPenalty(2); //デバッグ用
         if (alarm != null && alarm.isPlaying()) {
-            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            alarm.stop();
 
             stopTime = SystemClock.elapsedRealtime(); // 停止した時刻を取得
             long elapsedTime = stopTime - startTime; // 経過時間を計算
@@ -208,8 +207,10 @@ public class MainActivity extends AppCompatActivity {
             updatePenaltyValue(elapsedSeconds);
 
             int penalty = getCurrentPenaltyValue();
-            doPenalty(penalty); //ペナルティを呼び出す
+            //doPenalty(penalty); //ペナルティを呼び出す
 
+            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
+            alarm.stop();
             Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(penalty)+"です！", Toast.LENGTH_LONG).show();
         }
     }
