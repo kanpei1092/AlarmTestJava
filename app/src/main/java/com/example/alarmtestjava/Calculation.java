@@ -2,14 +2,14 @@ package com.example.alarmtestjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
 
@@ -17,7 +17,6 @@ public class Calculation extends AppCompatActivity {
 
     private TextView questionTextView;
     private EditText answerEditText;
-    private Button submitButton;
     private int correctAnswer;
 
     @Override
@@ -27,16 +26,11 @@ public class Calculation extends AppCompatActivity {
 
         questionTextView = findViewById(R.id.questionTextView);
         answerEditText = findViewById(R.id.answerEditText);
-        submitButton = findViewById(R.id.submitAnswerButton);
+        Button submitButton = findViewById(R.id.submitAnswerButton);
 
         generateNewQuestion();
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkAnswer();
-            }
-        });
+        submitButton.setOnClickListener(v -> checkAnswer());
     }
 
     private void generateNewQuestion() {
@@ -44,16 +38,26 @@ public class Calculation extends AppCompatActivity {
         int a = random.nextInt(10);
         int b = random.nextInt(10);
         correctAnswer = a + b;
-        questionTextView.setText(a + " + " + b + " = ?");
+        questionTextView.setText(String.format("%d + %d = ?", a, b));
     }
 
     private void checkAnswer() {
-        int userAnswer = Integer.parseInt(answerEditText.getText().toString());
-        if (userAnswer == correctAnswer) {
-            Toast.makeText(Calculation.this, "Correct!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(Calculation.this, "Wrong Answer", Toast.LENGTH_SHORT).show();
+        try {
+            int userAnswer = Integer.parseInt(answerEditText.getText().toString());
+            if (userAnswer == correctAnswer) {
+                Toast.makeText(Calculation.this, "Correct!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(Calculation.this, "Wrong Answer", Toast.LENGTH_SHORT).show();
+                generateNewQuestion();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(Calculation.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
         }
-        generateNewQuestion();
+
+        // ユーザー入力欄をリセット
+        answerEditText.setText("");
     }
+
 }
