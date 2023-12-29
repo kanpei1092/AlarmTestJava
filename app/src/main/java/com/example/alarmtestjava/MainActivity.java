@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        // アラームのセット
         TextView currentTimeText = findViewById(R.id.currentTimeText);
         currentTimeText.setText("current time");
 
         TextView settingTimeText = findViewById(R.id.settingTimeText);
         settingTimeText.setText("setting time");
-
 
         Button transitionButton = findViewById(R.id.transitionButton);
         transitionButton.setOnClickListener(new View.OnClickListener() {
