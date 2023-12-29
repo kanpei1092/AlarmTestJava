@@ -88,13 +88,12 @@ public class MainActivity extends AppCompatActivity {
         transitionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ボタンが押されたときの処理
-
                 // 画面遷移用のIntentを作成
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-
                 // 画面遷移を開始
                 startActivity(intent);
+                //Toast.makeText(MainActivity.this, "遷移したよん", Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -251,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
-        doPenalty(2); //デバッグ用
+        //doPenalty(2); //デバッグ用
         if (alarm != null && alarm.isPlaying()) {
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             alarm.stop();
@@ -267,12 +266,12 @@ public class MainActivity extends AppCompatActivity {
 
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
-
             int penalty = getCurrentPenaltyValue();
-            //doPenalty(penalty); //ペナルティを呼び出す
 
-            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
+            //ペナルティを呼び出す
+            doPenalty(penalty);
             alarm.stop();
+            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(penalty)+"です！", Toast.LENGTH_LONG).show();
         }
     }
