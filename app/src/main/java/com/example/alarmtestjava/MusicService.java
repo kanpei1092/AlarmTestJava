@@ -12,6 +12,7 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         mediaPlayer = MediaPlayer.create(this, MainActivity.soundResourceID(MainActivity.currentPenaltyValue));
+        AlarmReceiver.soundVolume(MainActivity.currentPenaltyValue, mediaPlayer);
     }
 
     @Override
