@@ -2,34 +2,22 @@ package com.example.alarmtestjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.PendingIntent;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.media.MediaPlayer;
-import android.view.View;
 import android.os.SystemClock;
-import android.widget.TextView;
-import android.nfc.NfcAdapter;
-import android.content.Intent;
-import android.widget.Toast;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TimePicker;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
 
@@ -44,14 +32,13 @@ public class MainActivity extends AppCompatActivity {
     private long stopTime;
 
     private AlarmManager alarmManager;
-    private TimePicker timePicker;
 
     public static int hour;
     public static int minute;
     private View view;
 
     private boolean alarmSetFlag; //アラーム設定されているかのフラグ
-    private TextView settingTime;
+    private TextView settingTime; //設定時間のテキスト表示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +47,22 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        // NFCアダプタの初期化
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        /* NFCの初期化 */
+        {
+            // NFCアダプタの初期化
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-        //NFCが利用可能か表示
-        if (nfcAdapter == null) {
-            Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
-        } else {
-            //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
-            // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
-            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
+            //NFCが利用可能か表示
+            if (nfcAdapter == null) {
+                Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
+            } else {
+                //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
+                // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
+                pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
 
+            }
         }
+
 
         TextView currentTimeText = findViewById(R.id.currentTimeText);
         currentTimeText.setText("current time");
@@ -97,24 +88,24 @@ public class MainActivity extends AppCompatActivity {
         // アラーム設定時間の取得
         Intent intent2 = getIntent();
         if (intent2 != null) {
-            hour = intent2.getIntExtra("key_data1",100);
-            minute = intent2.getIntExtra("key_data2",100);
-            if(hour <=24 && minute <= 60) {
+            hour = intent2.getIntExtra("key_data1", 100);
+            minute = intent2.getIntExtra("key_data2", 100);
+            if (hour <= 24 && minute <= 60) {
                 setAlarm(view);
             }
         }
 
 
         settingTime = findViewById(R.id.settingTime);
-        if(alarmSetFlag) {
-            if(hour < 12) {
-                if(minute < 10) {
+        if (alarmSetFlag) {
+            if (hour < 12) {
+                if (minute < 10) {
                     settingTime.setText(hour + ":" + "0" + minute + " AM");
                 } else {
                     settingTime.setText(hour + ":" + minute + " AM");
                 }
-            } else if(minute < 10) {
-                settingTime.setText((hour-12) + ":" + "0" + minute + " PM");
+            } else if (minute < 10) {
+                settingTime.setText((hour - 12) + ":" + "0" + minute + " PM");
             } else {
                 settingTime.setText((hour - 12) + ":" + minute + " PM");
             }
@@ -123,22 +114,22 @@ public class MainActivity extends AppCompatActivity {
 
     // 適切な soundResourceID を設定
     public static int soundResourceID(int penaltyValue) {
-        if (0 <= penaltyValue && penaltyValue < 20 ){
+        if (0 <= penaltyValue && penaltyValue < 20) {
             return R.raw.alarm;
         }
-        if (20 <= penaltyValue && penaltyValue < 40 ){
+        if (20 <= penaltyValue && penaltyValue < 40) {
             return R.raw.alarm1;
         }
-        if (40 <= penaltyValue && penaltyValue < 60 ){
+        if (40 <= penaltyValue && penaltyValue < 60) {
             return R.raw.alarm2;
         }
-        if (-20 <= penaltyValue && penaltyValue < 0 ){
+        if (-20 <= penaltyValue && penaltyValue < 0) {
             return R.raw.alarm;
         }
-        if (-40 <= penaltyValue && penaltyValue <= -20 ){
+        if (-40 <= penaltyValue && penaltyValue <= -20) {
             return R.raw.alarm3;
         }
-        if (-60 <= penaltyValue && penaltyValue <= -40 ){
+        if (-60 <= penaltyValue && penaltyValue <= -40) {
             return R.raw.alarm4;
         } else return R.raw.alarm;
     }
@@ -202,51 +193,71 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    /* スタートボタン */
-    public void onStart (View view) {
-
+    private void doPenalty(int penalty) {
+        penalty = 2;
+        switch (penalty) {
+            case 1:
+                // penaltyが1の場合の処理
+                Toast.makeText(this, "Penalty 1", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                // penaltyが2の場合の処理
+                Toast.makeText(this, "Penalty 2", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, Calculation.class);
+                startActivity(intent);
+                break;
+            case 3:
+                // penaltyが3の場合の処理
+                Toast.makeText(this, "Penalty 3", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                // どのcaseにも当てはまらない場合の処理
+                Toast.makeText(this, "Default Penalty", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
 
-    static void startMusic(){
+    static void startMusic() {
         if (alarm == null) {
             alarm.release();
         }
-        alarm.start();
+        //alarm.start();
         // 開始時刻を取得
         startTime = SystemClock.elapsedRealtime();
     }
 
 
-
     /* ストップボタン */
-    public void onStop (View view) {
+    public void onStop(View view) {
         wakeUp();
     }
 
     /* 起床判定メソッド */
-    public void wakeUp(){
-        if (alarm != null && alarm.isPlaying()) {
-            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            alarm.stop();
+    public void wakeUp() {
+        doPenalty(2); //デバッグ用
+        if (alarm != null) {
+            //Intent intent = new Intent(this, MusicService.class);
+            //stopService(intent);
             //アラーム設定時間の表示を解除
-            alarmSetFlag=false;
+            alarmSetFlag = false;
             settingTime.setText("");
             // 停止した時刻を取得
             stopTime = SystemClock.elapsedRealtime();
 
-            // 経過時間を計算
-            long elapsedTime = stopTime - startTime;
-
-            // 経過時間を秒単位で表示
-            long elapsedSeconds = elapsedTime / 1000;
+            stopTime = SystemClock.elapsedRealtime(); // 停止した時刻を取得
+            long elapsedTime = stopTime - startTime; // 経過時間を計算
+            long elapsedSeconds = elapsedTime / 1000; // 経過時間を秒単位で表示
 
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
 
-            //textView.setText(String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！");
-            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！", Toast.LENGTH_LONG).show();
+            int penalty = getCurrentPenaltyValue();
+            //doPenalty(penalty); //ペナルティを呼び出す
+
+            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
+            //alarm.stop();
+            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は" + String.valueOf(penalty) + "です！", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -283,4 +294,5 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         wakeUp();
     }
+
 }

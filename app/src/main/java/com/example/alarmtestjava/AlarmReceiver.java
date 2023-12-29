@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -22,7 +23,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d("AlarmReceiver", "Alarm received!");
         //MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
         MainActivity.alarm = MediaPlayer.create(context, MainActivity.soundResourceID(MainActivity.currentPenaltyValue));
-        soundVolume(MainActivity.currentPenaltyValue, MainActivity.alarm); //ペナルティ値で音量減少
+        //MainActivity.alarm.setVolume((float)0.2, (float)0.2);
+
 
         int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);//分
         int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);//時
@@ -30,6 +32,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(MainActivity.hour == nowHour && MainActivity.minute == nowMinute) {
             // MediaPlayerを作成して音楽を再生
             MainActivity.startMusic();
+            Intent serviceIntent = new Intent(context, MusicService.class);
+            context.startService(serviceIntent);
             //MainActivity.alarm.start();
             Log.d("AlarmReceiver", "Alarm start!");
         }
@@ -66,7 +70,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    //ペナルティ値で音量を決定するメソッド
     public void soundVolume(int penaltyValue, MediaPlayer alarm) {
         if(penaltyValue >= -20) {
             alarm.setVolume(1, 1);
@@ -80,5 +83,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             alarm.setVolume((float)0.2, (float)0.2);
         }
     }
+
 
 }
