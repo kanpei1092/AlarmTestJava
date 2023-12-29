@@ -193,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
+        doPenalty(2);
         if (alarm != null && alarm.isPlaying()) {
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             alarm.stop();
