@@ -76,16 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        /* ボタンでアラームセット　*/
-        {
-            Button setAlarmButton = findViewById(R.id.setAlarmButton);
-            setAlarmButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setAlarm(v);
-                }
-            });
-        }
+
         TextView currentTimeText = findViewById(R.id.currentTimeText);
         currentTimeText.setText("current time");
 
