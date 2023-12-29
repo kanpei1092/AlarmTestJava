@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             //NFCが利用可能か表示
             if (nfcAdapter == null) {
-                Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "NFCは利用できません", Toast.LENGTH_LONG).show();
             } else {
                 //Toast.makeText(this, "NFCは利用できます", Toast.LENGTH_LONG).show();
                 // スキャンされたときにタグの詳細情報でPendingIntentオブジェクトを準備するようにAndroidシステムに指示する
