@@ -34,7 +34,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -75,6 +74,7 @@
             </intent-filter>
         </receiver>
         <!-- 他のアクティビティやサービス、プロバイダ、レシーバの定義 -->
+        <service android:name=".MusicService" />
 
     </application>
     <uses-permission android:name="android.permission.NFC" />

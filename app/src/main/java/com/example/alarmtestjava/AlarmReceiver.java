@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -29,8 +27,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if(MainActivity.hour == nowHour && MainActivity.minute == nowMinute) {
             // MediaPlayerを作成して音楽を再生
-            MainActivity.startMusic();
+            //MainActivity.startMusic();
             //MainActivity.alarm.start();
+            Intent alarmIntent = new Intent(context, MusicService.class);
+            context.startService(alarmIntent);
             Log.d("AlarmReceiver", "Alarm start!");
         }
 

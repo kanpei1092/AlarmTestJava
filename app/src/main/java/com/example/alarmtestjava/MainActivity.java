@@ -4,34 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.media.MediaPlayer;
-import android.view.View;
 import android.os.SystemClock;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
-import android.nfc.NfcAdapter;
-import android.content.Intent;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -92,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 // 画面遷移を開始
                 startActivity(intent);
-                //Toast.makeText(MainActivity.this, "遷移したよん", Toast.LENGTH_LONG).show();
-
             }
         });
 
@@ -216,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 // penaltyが2の場合の処理
-                Toast.makeText(this, "Penalty 2", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, Calculation.class);
                 startActivity(intent);
                 break;
@@ -251,9 +239,7 @@ public class MainActivity extends AppCompatActivity {
     /* 起床判定メソッド */
     public void wakeUp(){
         //doPenalty(2); //デバッグ用
-        if (alarm != null && alarm.isPlaying()) {
-            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            alarm.stop();
+        if (alarm != null) {
             //アラーム設定時間の表示を解除
             alarmSetFlag=false;
             settingTime.setText("");
@@ -270,8 +256,12 @@ public class MainActivity extends AppCompatActivity {
 
             //ペナルティを呼び出す
             doPenalty(penalty);
-            alarm.stop();
-            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
+
+            //アラームを止めるためにonStartCommand が呼び出す
+            Intent intent = new Intent(this, MusicService.class);
+            stopService(intent);
+
+            //Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(penalty)+"です！", Toast.LENGTH_LONG).show();
         }
     }
@@ -310,3 +300,4 @@ public class MainActivity extends AppCompatActivity {
         wakeUp();
     }
 }
+
