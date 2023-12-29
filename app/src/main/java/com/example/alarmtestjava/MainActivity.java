@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private TextView textView;
-    private static int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
+    public static int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
     private static long startTime;
     private long stopTime;
 
@@ -123,15 +123,28 @@ public class MainActivity extends AppCompatActivity {
 
     // 適切な soundResourceID を設定
     public static int soundResourceID(int penaltyValue) {
-        if (penaltyValue > 0){
-            return R.raw.alarm1;
-        } else{
+        if (0 <= penaltyValue && penaltyValue < 20 ){
             return R.raw.alarm;
         }
+        if (20 <= penaltyValue && penaltyValue < 40 ){
+            return R.raw.alarm1;
+        }
+        if (40 <= penaltyValue && penaltyValue < 60 ){
+            return R.raw.alarm2;
+        }
+        if (-20 <= penaltyValue && penaltyValue < 0 ){
+            return R.raw.alarm;
+        }
+        if (-40 <= penaltyValue && penaltyValue <= -20 ){
+            return R.raw.alarm3;
+        }
+        if (-60 <= penaltyValue && penaltyValue <= -40 ){
+            return R.raw.alarm4;
+        } else return R.raw.alarm;
     }
 
     // penaltyValueを取得する関数
-    public int getCurrentPenaltyValue() {
+    public static int getCurrentPenaltyValue() {
         return currentPenaltyValue;
     }
 

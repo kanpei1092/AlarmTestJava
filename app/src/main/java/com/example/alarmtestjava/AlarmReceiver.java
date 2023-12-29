@@ -20,7 +20,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("AlarmReceiver", "Alarm received!");
-        MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
+        //MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
+        MainActivity.alarm = MediaPlayer.create(context, MainActivity.soundResourceID(MainActivity.currentPenaltyValue));
 
         int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);//分
         int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);//時
