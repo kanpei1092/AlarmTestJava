@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void doPenalty(int penalty) {
+        penalty = 2;
         switch (penalty) {
             case 1:
                 // penaltyが1の場合の処理
@@ -195,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp(){
-        doPenalty(2);
         if (alarm != null && alarm.isPlaying()) {
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             alarm.stop();
@@ -206,7 +206,11 @@ public class MainActivity extends AppCompatActivity {
 
             // elapsedSecondsに基づいてpenaltyValueを更新
             updatePenaltyValue(elapsedSeconds);
-            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(getCurrentPenaltyValue())+"です！", Toast.LENGTH_LONG).show();
+
+            int penalty = getCurrentPenaltyValue();
+            doPenalty(penalty); //ペナルティを呼び出す
+
+            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(penalty)+"です！", Toast.LENGTH_LONG).show();
         }
     }
 
