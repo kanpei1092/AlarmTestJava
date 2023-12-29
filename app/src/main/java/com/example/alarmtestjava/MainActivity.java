@@ -101,24 +101,24 @@ public class MainActivity extends AppCompatActivity {
         // アラーム設定時間の取得
         Intent intent2 = getIntent();
         if (intent2 != null) {
-            hour = intent2.getIntExtra("key_data1",100);
-            minute = intent2.getIntExtra("key_data2",100);
-            if(hour <=24 && minute <= 60) {
+            hour = intent2.getIntExtra("key_data1", 100);
+            minute = intent2.getIntExtra("key_data2", 100);
+            if (hour <= 24 && minute <= 60) {
                 setAlarm(view);
             }
         }
 
 
         settingTime = findViewById(R.id.settingTime);
-        if(alarmSetFlag) {
-            if(hour < 12) {
-                if(minute < 10) {
+        if (alarmSetFlag) {
+            if (hour < 12) {
+                if (minute < 10) {
                     settingTime.setText(hour + ":" + "0" + minute + " AM");
                 } else {
                     settingTime.setText(hour + ":" + minute + " AM");
                 }
-            } else if(minute < 10) {
-                settingTime.setText((hour-12) + ":" + "0" + minute + " PM");
+            } else if (minute < 10) {
+                settingTime.setText((hour - 12) + ":" + "0" + minute + " PM");
             } else {
                 settingTime.setText((hour - 12) + ":" + minute + " PM");
             }
@@ -127,22 +127,22 @@ public class MainActivity extends AppCompatActivity {
 
     // 適切な soundResourceID を設定
     public static int soundResourceID(int penaltyValue) {
-        if (0 <= penaltyValue && penaltyValue < 20 ){
+        if (0 <= penaltyValue && penaltyValue < 20) {
             return R.raw.alarm;
         }
-        if (20 <= penaltyValue && penaltyValue < 40 ){
+        if (20 <= penaltyValue && penaltyValue < 40) {
             return R.raw.alarm1;
         }
-        if (40 <= penaltyValue && penaltyValue < 60 ){
+        if (40 <= penaltyValue && penaltyValue < 60) {
             return R.raw.alarm2;
         }
-        if (-20 <= penaltyValue && penaltyValue < 0 ){
+        if (-20 <= penaltyValue && penaltyValue < 0) {
             return R.raw.alarm;
         }
-        if (-40 <= penaltyValue && penaltyValue <= -20 ){
+        if (-40 <= penaltyValue && penaltyValue <= -20) {
             return R.raw.alarm3;
         }
-        if (-60 <= penaltyValue && penaltyValue <= -40 ){
+        if (-60 <= penaltyValue && penaltyValue <= -40) {
             return R.raw.alarm4;
         } else return R.raw.alarm;
     }
@@ -207,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void doPenalty(int penalty) {
         penalty = 2;
         switch (penalty) {
@@ -233,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    static void startMusic(){
+    static void startMusic() {
         if (alarm == null) {
             alarm.release();
         }
@@ -243,20 +242,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /* ストップボタン */
-    public void onStop (View view) {
+    public void onStop(View view) {
         wakeUp();
     }
 
     /* 起床判定メソッド */
-    public void wakeUp(){
+    public void wakeUp() {
         doPenalty(2); //デバッグ用
-        if (alarm != null && alarm.isPlaying()) {
+        if (alarm != null) {
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            alarm.stop();
+            //Intent intent = new Intent(this, MusicService.class);
+            //stopService(intent);
             //アラーム設定時間の表示を解除
-            alarmSetFlag=false;
+            alarmSetFlag = false;
             settingTime.setText("");
             // 停止した時刻を取得
             stopTime = SystemClock.elapsedRealtime();
@@ -272,8 +271,8 @@ public class MainActivity extends AppCompatActivity {
             //doPenalty(penalty); //ペナルティを呼び出す
 
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            alarm.stop();
-            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は"+String.valueOf(penalty)+"です！", Toast.LENGTH_LONG).show();
+            //alarm.stop();
+            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は" + String.valueOf(penalty) + "です！", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -310,4 +309,5 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         wakeUp();
     }
+
 }
