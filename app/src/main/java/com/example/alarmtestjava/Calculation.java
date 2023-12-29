@@ -64,5 +64,4 @@ public class Calculation extends AppCompatActivity {
         // ユーザー入力欄をリセット
         answerEditText.setText("");
     }
-
 }
