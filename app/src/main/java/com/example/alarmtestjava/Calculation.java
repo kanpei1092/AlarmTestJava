@@ -2,6 +2,7 @@ package com.example.alarmtestjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,9 +52,12 @@ public class Calculation extends AppCompatActivity {
         int userAnswer = Integer.parseInt(answerEditText.getText().toString());
         if (userAnswer == correctAnswer) {
             Toast.makeText(Calculation.this, "Correct!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         } else {
             Toast.makeText(Calculation.this, "Wrong Answer", Toast.LENGTH_SHORT).show();
+            generateNewQuestion();
         }
-        generateNewQuestion();
+
     }
 }

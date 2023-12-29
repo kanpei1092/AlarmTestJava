@@ -162,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 // penaltyが2の場合の処理
                 Toast.makeText(this, "Penalty 2", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, Calculation.class);
+                startActivity(intent);
                 break;
             case 3:
                 // penaltyが3の場合の処理
