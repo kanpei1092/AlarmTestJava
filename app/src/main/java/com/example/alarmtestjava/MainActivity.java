@@ -4,33 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.media.MediaPlayer;
 import android.view.View;
 import android.os.SystemClock;
 import android.widget.TextView;
 import android.nfc.NfcAdapter;
-import android.content.Intent;
 import android.widget.Toast;
 import android.widget.Button;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,14 +31,13 @@ public class MainActivity extends AppCompatActivity {
     private long stopTime;
 
     private AlarmManager alarmManager;
-    private TimePicker timePicker;
 
     public static int hour;
     public static int minute;
     private View view;
 
     private boolean alarmSetFlag; //アラーム設定されているかのフラグ
-    private TextView settingTime;
+    private TextView settingTime; //設定時間のテキスト表示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
