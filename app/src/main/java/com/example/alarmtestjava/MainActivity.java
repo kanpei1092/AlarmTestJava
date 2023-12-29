@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         if (alarm == null) {
             alarm.release();
         }
-        alarm.start();
+        //alarm.start();
         // 開始時刻を取得
         startTime = SystemClock.elapsedRealtime();
     }
@@ -251,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
     public void wakeUp() {
         doPenalty(2); //デバッグ用
         if (alarm != null) {
-            Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             //Intent intent = new Intent(this, MusicService.class);
             //stopService(intent);
             //アラーム設定時間の表示を解除

@@ -31,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if(MainActivity.hour == nowHour && MainActivity.minute == nowMinute) {
             // MediaPlayerを作成して音楽を再生
-            //MainActivity.startMusic();
+            MainActivity.startMusic();
             Intent serviceIntent = new Intent(context, MusicService.class);
             context.startService(serviceIntent);
             //MainActivity.alarm.start();
