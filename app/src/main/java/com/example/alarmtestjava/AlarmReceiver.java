@@ -71,9 +71,16 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     public void soundVolume(int penaltyValue, MediaPlayer alarm) {
-        if(penaltyValue <= 0) {
+        if(penaltyValue >= -20) {
             alarm.setVolume(1, 1);
-        }else if(penaltyValue > 0 && penaltyValue <= 1){
+        }else if(penaltyValue >= -40){
+            alarm.setVolume((float)0.8, (float)0.8);
+        }else if(penaltyValue >= -60){
+            alarm.setVolume((float)0.6, (float)0.6);
+        }else if(penaltyValue >= -80){
+            alarm.setVolume((float)0.4, (float)0.4);
+        }else {
+            alarm.setVolume((float)0.2, (float)0.2);
         }
     }
 
