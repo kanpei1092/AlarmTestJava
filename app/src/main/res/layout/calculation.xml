@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/questionTextView"
-        android:inputType="number"
+        android:inputType="numberSigned|numberDecimal"
         android:hint="Your Answer"/>
 
     <Button

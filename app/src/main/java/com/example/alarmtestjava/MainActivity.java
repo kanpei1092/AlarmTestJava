@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean alarmSetFlag; //アラーム設定されているかのフラグ
     private TextView settingTime; //設定時間のテキスト表示
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     // 適切な soundResourceID を設定
     public static int soundResourceID(int penaltyValue) {
@@ -194,26 +196,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void doPenalty(int penalty) {
-        penalty = 2;
-        switch (penalty) {
-            case 1:
-                // penaltyが1の場合の処理
-                Toast.makeText(this, "Penalty 1", Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                // penaltyが2の場合の処理
-                Toast.makeText(this, "Penalty 2", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, Calculation.class);
-                startActivity(intent);
-                break;
-            case 3:
-                // penaltyが3の場合の処理
-                Toast.makeText(this, "Penalty 3", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                // どのcaseにも当てはまらない場合の処理
-                Toast.makeText(this, "Default Penalty", Toast.LENGTH_SHORT).show();
-                break;
+        if(penalty > 20){
+            Intent intent = new Intent(this, Calculation.class);
+            startActivity(intent);
         }
     }
 
@@ -235,10 +220,8 @@ public class MainActivity extends AppCompatActivity {
 
     /* 起床判定メソッド */
     public void wakeUp() {
-        doPenalty(2); //デバッグ用
+        //doPenalty(getCurrentPenaltyValue()); //デバッグ用
         if (alarm != null) {
-            //Intent intent = new Intent(this, MusicService.class);
-            //stopService(intent);
             //アラーム設定時間の表示を解除
             alarmSetFlag = false;
             settingTime.setText("");
@@ -253,10 +236,9 @@ public class MainActivity extends AppCompatActivity {
             updatePenaltyValue(elapsedSeconds);
 
             int penalty = getCurrentPenaltyValue();
-            //doPenalty(penalty); //ペナルティを呼び出す
+            doPenalty(penalty); //ペナルティを呼び出す
 
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            //alarm.stop();
             Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は" + String.valueOf(penalty) + "です！", Toast.LENGTH_LONG).show();
         }
     }
