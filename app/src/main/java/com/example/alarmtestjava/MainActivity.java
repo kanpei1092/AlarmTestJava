@@ -99,17 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
         settingTime = findViewById(R.id.settingTime);
         if (alarmSetFlag) {
-            if (hour < 12) {
                 if (minute < 10) {
-                    settingTime.setText(hour + ":" + "0" + minute + " AM");
+                    settingTime.setText(hour + ":" + "0" + minute);
                 } else {
-                    settingTime.setText(hour + ":" + minute + " AM");
+                    settingTime.setText(hour + ":" + minute);
                 }
-            } else if (minute < 10) {
-                settingTime.setText((hour - 12) + ":" + "0" + minute + " PM");
-            } else {
-                settingTime.setText((hour - 12) + ":" + minute + " PM");
-            }
+
         }
     }
 
@@ -236,7 +231,12 @@ public class MainActivity extends AppCompatActivity {
             updatePenaltyValue(elapsedSeconds);
 
             int penalty = getCurrentPenaltyValue();
-            doPenalty(penalty); //ペナルティを呼び出す
+            if(penalty > 20) {
+                doPenalty(penalty); //ペナルティを呼び出す
+            } else{
+                Intent serviceIntent = new Intent(this, MusicService.class);
+                stopService(serviceIntent);
+            }
 
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
             Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は" + String.valueOf(penalty) + "です！", Toast.LENGTH_LONG).show();
