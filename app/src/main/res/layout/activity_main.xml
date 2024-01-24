@@ -15,56 +15,52 @@
 
         <!-- 他のビューがあればそれらを追加 -->
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="182dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="105dp"
-            android:layout_marginTop="450dp"
-            android:onClick="onStop"
-            android:text="Stop alarm" />
+
 
         <Button
             android:id="@+id/transitionButton"
             android:layout_width="182dp"
             android:layout_height="100dp"
             android:layout_marginLeft="105dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="300dp"
             android:text="let's set alarm" />
+
 
         <TextClock
             android:id="@+id/textClock"
             android:layout_width="228dp"
             android:layout_height="93dp"
-            android:layout_marginLeft="120dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="600dp"
-            android:textSize="40sp" />
+            android:textSize="80sp" />
 
         <TextView
             android:id="@+id/currentTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:layout_marginLeft="105dp"
-            android:layout_marginTop="580dp"/>
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="570dp"
+            android:textSize="30sp"/>
 
         <TextView
             android:id="@+id/settingTime"
-            android:layout_width="242dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
+            android:layout_width="228dp"
+            android:layout_height="93dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="100dp"
             android:text=""
-            android:textColor="#000000"
-            android:textSize="50sp" />
+            android:textColor="#DDDDDD"
+            android:textSize="80sp" />
 
         <TextView
             android:id="@+id/settingTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="70dp"
             android:text="TextView"
-            android:layout_marginLeft="105dp"
-            android:layout_marginTop="80dp"/>
+            android:textSize="30sp" />
 
     </RelativeLayout>
 

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private TextView textView;
-    public static int currentPenaltyValue = 0; // 初期のpenaltyValueを設定
+    public static int currentPenaltyValue = -60; // 初期のpenaltyValueを設定 low:-60 high:70
     private static long startTime;
     private long stopTime;
 
@@ -193,14 +193,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void doPenalty(int penalty) {
-        if(penalty > 20){
-            Intent intent = new Intent(this, Calculation.class);
-            startActivity(intent);
-        }
-    }
-
-
     static void startMusic() {
         if (alarm == null) {
             alarm.release();
@@ -235,14 +227,15 @@ public class MainActivity extends AppCompatActivity {
 
             int penalty = getCurrentPenaltyValue();
             if(penalty > 20) {
-                doPenalty(penalty); //ペナルティを呼び出す
+                Intent intent = new Intent(this, Calculation.class);
+                startActivity(intent); //ペナルティを呼び出す
             } else{
                 Intent serviceIntent = new Intent(this, MusicService.class);
                 stopService(serviceIntent);
             }
 
             Toast.makeText(this, "おはようございます", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は" + String.valueOf(penalty) + "です！", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, String.valueOf(elapsedSeconds) + "秒経ちました！" + "\nペナルティ値は" + String.valueOf(penalty) + "です！", Toast.LENGTH_LONG).show();
         }
     }
 

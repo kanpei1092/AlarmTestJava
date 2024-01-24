@@ -54,7 +54,7 @@ public class Calculation extends AppCompatActivity {
     }
 
     private void inflictPenalty(){
-        penalty = 30;
+        //penalty = 30;
         int level = penalty/10;
         generateNewQuestion(level);
     }
