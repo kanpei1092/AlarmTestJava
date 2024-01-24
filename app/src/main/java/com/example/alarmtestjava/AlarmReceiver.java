@@ -21,9 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("AlarmReceiver", "Alarm received!");
-        //MainActivity.alarm = MediaPlayer.create(context, R.raw.alarm);
-        MainActivity.alarm = MediaPlayer.create(context, MainActivity.soundResourceID(MainActivity.currentPenaltyValue));
-        //MainActivity.alarm.setVolume((float)0.2, (float)0.2);
+        //MainActivity.alarm = MediaPlayer.create(context, MainActivity.soundResourceID(MainActivity.currentPenaltyValue));
 
         int nowMinute = Calendar.getInstance().get(Calendar.MINUTE);//分
         int nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);//時
@@ -43,12 +41,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // アプリケーションがバックグラウンドで動作している場合、
         // メディアプレーヤーのリソースを解放することを忘れないでください。
-        MainActivity.alarm.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
+
     }
 
     private void showNotification(Context context, String title, String content) {
